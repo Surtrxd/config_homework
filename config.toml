@@ -1,0 +1,3 @@
+hostname = "MyVirtualMachine"
+fs_path = "vfs_image.tar"
+start_script = "start_script.sh"
