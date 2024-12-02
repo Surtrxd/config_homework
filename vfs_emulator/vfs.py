@@ -85,16 +85,18 @@ class VirtualFileSystem:
         return f"Ошибка: файл {filename} не найден."
 
     def uniq(self, filename):
-        if filename not in self.current_dir or self.current_dir[filename] is not None:
+        # Проверяем, существует ли файл и является ли он файлом (не директорией)
+        if filename not in self.current_dir or self.current_dir[filename] is None:
             return f"Ошибка: файл {filename} не найден или он является директорией."
 
-        # Заглушка для содержимого файла
-        file_content = [
-            "строка 1",
-            "строка 2",
-            "строка 1",
-            "строка 3",
-        ]
+        # Получаем содержимое файла из current_dir
+        file_content = self.current_dir[filename]
+
+        # Проверяем, что файл не пустой и является списком строк
+        if not isinstance(file_content, list):
+            return f"Ошибка: файл {filename} содержит некорректные данные."
+
+        # Удаляем дубликаты строк, сохраняя порядок
         unique_lines = list(dict.fromkeys(file_content))
         return "\n".join(unique_lines)
 
